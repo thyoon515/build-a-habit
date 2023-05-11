@@ -6,23 +6,26 @@ import Signup from "./components/sessions/Signup";
 import NavBar from "./components/navigation/NavBar";
 
 function App() {
-  const [count, setCount] = useState(0);
+  
+  const [userLoggedIn, setUserLoggedIn] = useState(false);
 
   useEffect(() => {
-    fetch("/hello")
-      .then((r) => r.json())
-      .then((data) => setCount(data.count));
-  }, []);
+    fetch('/me').then((response) => {
+      if (response.ok) {
+        response.json().then(() => {
+          setUserLoggedIn(true)
+        });
+      }
+    });
+  }, []); 
 
   return (
     <BrowserRouter>
-      <NavBar />
+      <NavBar userLoggedIn={userLoggedIn} setUserLoggedIn={setUserLoggedIn} />
       <Routes>
-        <Route path="/" element={<h1>Page Count: {count}</h1>} />
-        <Route path="/testing" element={<h1>Test Route</h1>} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login setUserLoggedIn={setUserLoggedIn} />} />
+        <Route path="/signup" element={<Signup setUserLoggedIn={setUserLoggedIn} />} />
       </Routes>
     </BrowserRouter>
   );

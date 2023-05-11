@@ -11,7 +11,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
-const Login = ({ setGuestLoggedIn }) => {
+const Login = ({ setUserLoggedIn }) => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -34,7 +34,7 @@ const Login = ({ setGuestLoggedIn }) => {
             .then(res => {
               if(res.ok){
                   res.json().then(() => {
-                    //setGuestLoggedIn(true)
+                    setUserLoggedIn(true)
                     //setCurrentUser(loggedInUser)
                     navigate('/')
                   })
