@@ -81,6 +81,4 @@ test:
 #
 production:
   <<: *default
-  database: build_a_habit_production
-  username: build_a_habit
-  password: <%= ENV["BUILD_A_HABIT_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] %>
