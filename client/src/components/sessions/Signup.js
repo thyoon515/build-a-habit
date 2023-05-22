@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -10,9 +10,12 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { CurrentUserContext } from '../../context/CurrentUser';
 
 const Signup = ({ setUserLoggedIn }) => {
 
+  // eslint-disable-next-line
+  const [currentUser, setCurrentUser] = useContext(CurrentUserContext)
   const [signupUserInputs, setSignupUserInputs] = useState({
     first_name: "",
     last_name: "",
@@ -37,9 +40,9 @@ const Signup = ({ setUserLoggedIn }) => {
     })
     .then(res => {
       if(res.ok){
-          res.json().then(() => {
+          res.json().then((newUser) => {
             setUserLoggedIn(true)
-            //setCurrentUser(newUser)
+            setCurrentUser(newUser)
             navigate('/')
           })
       }else{

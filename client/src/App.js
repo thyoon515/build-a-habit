@@ -23,7 +23,7 @@ function App() {
     <BrowserRouter>
       <NavBar userLoggedIn={userLoggedIn} setUserLoggedIn={setUserLoggedIn} />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home userLoggedIn={userLoggedIn} />} />
         <Route path="/login" element={<Login setUserLoggedIn={setUserLoggedIn} />} />
         <Route path="/signup" element={<Signup setUserLoggedIn={setUserLoggedIn} />} />
       </Routes>

@@ -1,8 +1,29 @@
-import React from 'react'
+import {  useContext } from 'react';
+import { CurrentUserContext } from '../../context/CurrentUser';
 
-const Home = () => {
+const Home = ({ userLoggedIn }) => {
+  const [currentUser] = useContext(CurrentUserContext)
+
+  const currentUserExist = () => {
+    return (
+      <div align='center' >
+        <h1>Welcome, {currentUser.first_name}!</h1>
+      </div>
+    )
+  }
+
+  const noCurrentUser = () => {
+    return (
+      <div align='center' >
+        <h1>Please, Log In to Start!</h1>
+      </div>
+    )
+  }
+
   return (
-    <div>Home</div>
+    <div>
+      { userLoggedIn ? currentUserExist() : noCurrentUser() }
+    </div>
   )
 }
 
