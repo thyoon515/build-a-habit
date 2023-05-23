@@ -8,7 +8,6 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import { useNavigate } from 'react-router-dom';
 
-
 const NavBar = ({ setUserLoggedIn, userLoggedIn }) => {
   
   const navigate = useNavigate();
@@ -26,6 +25,7 @@ const NavBar = ({ setUserLoggedIn, userLoggedIn }) => {
     return(
       <>
         <Button color="inherit" component={ Link } to="/">Home</Button>
+        <Button color="inherit" component={ Link } to="/today">Today</Button>
         <Button color="inherit" onClick={ handleLogout }>Logout</Button>
       </>
     )
