@@ -1,3 +1,5 @@
 class PrioritySerializer < ActiveModel::Serializer
-  attributes :id, :order, :color
+  attributes :order, :color
+
+  has_many :tasks
 end
