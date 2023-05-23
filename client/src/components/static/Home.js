@@ -2,7 +2,10 @@ import {  useContext } from 'react';
 import { CurrentUserContext } from '../../context/CurrentUser';
 
 const Home = ({ userLoggedIn }) => {
+
   const [currentUser] = useContext(CurrentUserContext)
+
+  console.log(currentUser)
 
   const currentUserExist = () => {
     return (
