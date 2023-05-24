@@ -12,6 +12,15 @@ function App() {
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useContext(CurrentUserContext)
+  const [tasks, setTasks] = useState({})
+
+  useEffect(() => {
+    fetch('/tasks')
+      .then(r => r.json())
+      .then(data => setTasks(data))
+  },[])
+
+  console.log(tasks)
 
   useEffect(() => {
     fetch('/me').then((response) => {
@@ -29,7 +38,7 @@ function App() {
       <NavBar userLoggedIn={userLoggedIn} setUserLoggedIn={setUserLoggedIn} />
       <Routes>
         <Route path="/" element={<Home userLoggedIn={userLoggedIn} />} />
-        <Route path="/today" element={<Today />} />
+        <Route path="/today" element={<Today tasks={tasks} setTasks={setTasks} />} />
         <Route path="/login" element={<Login setUserLoggedIn={setUserLoggedIn} />} />
         <Route path="/signup" element={<Signup setUserLoggedIn={setUserLoggedIn} />} />
       </Routes>
