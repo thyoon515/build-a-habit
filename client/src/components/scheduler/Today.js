@@ -6,7 +6,13 @@ import interactionPlugin from '@fullcalendar/interaction';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 
-const Today = ({ tasks }) => {
+const Today = () => {
+
+  const tasks = [
+    {title: 'Walk the dogs', start: '2023-05-30T07:45', end: '2023-05-30T08:45'},
+    {title: 'Work out', start: '2023-05-30T08:45', end: '2023-05-30T09:45'},
+    {title: 'Eat', start: '2023-05-30T10:00', end: '2023-05-30T11:00'}
+  ]
 
   const [openModal, setOpenModal] = useState(false)
 
@@ -27,7 +33,8 @@ const Today = ({ tasks }) => {
       <button onClick={() => setOpenModal(true)}>Add Task</button>
       <FullCalendar 
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]} 
-        initialView="timeGridDay" 
+        initialView="timeGridDay"
+        events={tasks} 
 
       />
       <Modal open={openModal} onClose={() => setOpenModal(false)}>
