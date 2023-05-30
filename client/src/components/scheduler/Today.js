@@ -6,13 +6,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 
-const Today = () => {
-
-  const tasks = [
-    {title: 'Walk the dogs', start: '2023-05-30T07:45', end: '2023-05-30T08:45'},
-    {title: 'Work out', start: '2023-05-30T08:45', end: '2023-05-30T09:45'},
-    {title: 'Eat', start: '2023-05-30T10:00', end: '2023-05-30T11:00'}
-  ]
+const Today = ({ tasks }) => {
 
   const [openModal, setOpenModal] = useState(false)
 
