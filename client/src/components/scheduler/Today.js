@@ -1,44 +1,53 @@
-import {useState} from 'react'
+import { useState, useContext } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import Modal from '@mui/material/Modal';
-import Box from '@mui/material/Box';
+import { CurrentUserContext } from '../../context/CurrentUser';
+
 
 const Today = ({ tasks }) => {
 
-  const [openModal, setOpenModal] = useState(false)
+  const [currentUser] = useContext(CurrentUserContext)
+  const [currentuserTasks, setCurrentUserTasks] = useState({})
 
-  const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
+  
+  // const filterCurrentUserTasks = tasks.filter(task => {
+  //   if(task.user.id === currentUser.id){
+  //     return setCurrentUserTasks(filterCurrentUserTasks)
+  //   }
+  // })
+  
+  console.log(currentuserTasks)
+
+  // const eventObjects = tasks.map((task) => ({
+  //   title: task.title,
+  //   start: new Date(task.start),
+  //   end: new Date(task.end),
+  //   taskId: task.id
+  // }))
+
+  const handleEventClick = (eventInfo) => {
+    console.log(eventInfo)
   };
 
   return (
     <div>
-      <button onClick={() => setOpenModal(true)}>Add Task</button>
       <FullCalendar 
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]} 
         initialView="timeGridDay"
-        events={tasks} 
-
+        //events={eventObjects}
+        eventClick={handleEventClick}
+        editable={true}
+        headerToolbar={{
+          start: 'today prev,next',
+          center: 'title',
+          end: 'timeGridDay,timeGridWeek,dayGridMonth'
+        }}
       />
-      <Modal open={openModal} onClose={() => setOpenModal(false)}>
-        <Box sx={style}>
-          <p>open</p>
-        </Box>
-      </Modal>
     </div>
     
   )
-}
+  }
 
 export default Today

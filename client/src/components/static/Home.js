@@ -5,8 +5,6 @@ const Home = ({ userLoggedIn }) => {
 
   const [currentUser] = useContext(CurrentUserContext)
 
-  console.log(currentUser)
-
   const currentUserExist = () => {
     return (
       <div align='center' >

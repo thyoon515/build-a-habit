@@ -20,7 +20,7 @@ function App() {
       .then(data => setTasks(data))
   },[])
 
-  console.log(tasks)
+  console.log(currentUser.tasks)
 
   useEffect(() => {
     fetch('/me').then((response) => {
