@@ -1,34 +1,24 @@
-import { useState, useContext } from 'react';
+import React from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { CurrentUserContext } from '../../context/CurrentUser';
+import EditTask from './EditTask';
+import { useNavigate } from 'react-router-dom';
 
+const Today = ({ currentUserTasks }) => {
 
-const Today = ({ tasks }) => {
-
-  const [currentUser] = useContext(CurrentUserContext)
-  const [currentuserTasks, setCurrentUserTasks] = useState({})
-
-  
-  // const filterCurrentUserTasks = tasks.filter(task => {
-  //   if(task.user.id === currentUser.id){
-  //     return setCurrentUserTasks(filterCurrentUserTasks)
-  //   }
-  // })
-  
-  console.log(currentuserTasks)
-
-  // const eventObjects = tasks.map((task) => ({
+  // const eventObjects = currentUserTasks.map((task) => ({
   //   title: task.title,
   //   start: new Date(task.start),
   //   end: new Date(task.end),
   //   taskId: task.id
   // }))
+  const navigate = useNavigate();
 
   const handleEventClick = (eventInfo) => {
-    console.log(eventInfo)
+    <EditTask task={eventInfo}/>
+    navigate(`/tasks/${eventInfo.event.id}/edit`)
   };
 
   return (
@@ -36,7 +26,7 @@ const Today = ({ tasks }) => {
       <FullCalendar 
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]} 
         initialView="timeGridDay"
-        //events={eventObjects}
+        events={currentUserTasks}
         eventClick={handleEventClick}
         editable={true}
         headerToolbar={{
