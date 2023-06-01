@@ -5,16 +5,23 @@ import Login from "./components/sessions/Login";
 import Signup from "./components/sessions/Signup";
 import NavBar from "./components/navigation/NavBar";
 import Today from "./components/scheduler/Today";
+import Test from "./components/scheduler/Test";
 import { CurrentUserContext } from './context/CurrentUser';
-import EditTask from "./components/scheduler/EditTask";
+import EditTaskForm from "./components/scheduler/EditTaskForm";
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
 
 function App() {
   
-  const [userLoggedIn, setUserLoggedIn] = useState(false);
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useContext(CurrentUserContext)
-  const [tasks, setTasks] = useState([])
-  const [currentUserTasks, setCurrentUserTasks] = useState([])
+  const [userLoggedIn, setUserLoggedIn] = useState(false);
+  const [tasks, setTasks] = useState([]);
+  const [currentUserTasks, setCurrentUserTasks] = useState([]);
+  const [editTask, setEditTask] = useState([]);
+
+  console.log(editTask)
 
   useEffect(() => {
     fetch('/tasks')
@@ -27,7 +34,6 @@ function App() {
     setCurrentUserTasks(filteredTasks)
   },[tasks, currentUser.id])
 
-  console.log(currentUserTasks)
 
   useEffect(() => {
     fetch('/me').then((response) => {
@@ -41,16 +47,19 @@ function App() {
   }, [setCurrentUser]); 
 
   return (
-    <BrowserRouter>
-      <NavBar userLoggedIn={userLoggedIn} setUserLoggedIn={setUserLoggedIn} />
-      <Routes>
-        <Route path="/" element={<Home userLoggedIn={userLoggedIn} />} />
-        <Route path="/today" element={<Today currentUserTasks={currentUserTasks} />} />
-        <Route path="/login" element={<Login setUserLoggedIn={setUserLoggedIn} />} />
-        <Route path="/signup" element={<Signup setUserLoggedIn={setUserLoggedIn} />} />
-        <Route path="/tasks/:id/edit" element={<EditTask />} />
-      </Routes>
-    </BrowserRouter>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <BrowserRouter>
+        <NavBar userLoggedIn={userLoggedIn} setUserLoggedIn={setUserLoggedIn} />
+        <Routes>
+          <Route path="/" element={<Home userLoggedIn={userLoggedIn} />} />
+          <Route path="/login" element={<Login setUserLoggedIn={setUserLoggedIn} />} />
+          <Route path="/signup" element={<Signup setUserLoggedIn={setUserLoggedIn} />} />
+          <Route path="/today" element={<Today currentUserTasks={currentUserTasks} setEditTask={setEditTask} />} />
+          <Route path="/tasks/:id/edit" element={<EditTaskForm editTask={editTask}/>} />
+          <Route path="/test" element={<Test />} />
+        </Routes>
+      </BrowserRouter>
+    </LocalizationProvider>
   );
 }
 

@@ -3,10 +3,9 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import EditTask from './EditTask';
 import { useNavigate } from 'react-router-dom';
 
-const Today = ({ currentUserTasks }) => {
+const Today = ({ currentUserTasks, setEditTask }) => {
 
   // const eventObjects = currentUserTasks.map((task) => ({
   //   title: task.title,
@@ -17,7 +16,7 @@ const Today = ({ currentUserTasks }) => {
   const navigate = useNavigate();
 
   const handleEventClick = (eventInfo) => {
-    <EditTask task={eventInfo}/>
+    setEditTask(eventInfo.event)
     navigate(`/tasks/${eventInfo.event.id}/edit`)
   };
 
