@@ -11,6 +11,10 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Stack from '@mui/material/Stack';
 
 const EditTaskForm = ({ editTask }) => {
 
@@ -84,6 +88,55 @@ const EditTaskForm = ({ editTask }) => {
       })
     }
 
+    const allDayTrue = () => {
+      return (
+        <>
+        <Grid item xs={12}>
+            <DatePicker
+              label="Start Date & Time"
+              value={editStart}
+              onChange={(newStart) => setEditStart(newStart)}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <DatePicker
+              label="End Date & Time"
+              value={editEnd}
+              onChange={(newEnd) => setEditEnd(newEnd)}
+            />
+          </Grid>
+        </>
+      )
+    }
+
+    const allDayFalse = () => {
+      return (
+        <>
+          <Grid item xs={12}>
+            <DateTimePicker
+              label="Start Date & Time"
+              value={editStart}
+              onChange={(newStart) => setEditStart(newStart)}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <DateTimePicker
+              label="End Date & Time"
+              value={editEnd}
+              onChange={(newEnd) => setEditEnd(newEnd)}
+            />
+          </Grid>
+        </>
+      )
+    }
+
+    const handleCancel = () => {
+      const shouldDiscardChanges = window.confirm('Discard changes?');
+      if (shouldDiscardChanges) {
+      navigate('/today');
+    }
+    }
+
   return (
     <form onSubmit={handleSubmitEdit}>
         <Container maxWidth="sm">
@@ -100,20 +153,6 @@ const EditTaskForm = ({ editTask }) => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <DateTimePicker
-                  label="Start Date & Time"
-                  value={editStart}
-                  onChange={(newStart) => setEditStart(newStart)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <DateTimePicker
-                  label="End Date & Time"
-                  value={editEnd}
-                  onChange={(newEnd) => setEditEnd(newEnd)}
-                />
-              </Grid>
-              <Grid item xs={12}>
                 <FormControl fullWidth>
                   <InputLabel>All Day?</InputLabel>
                   <Select
@@ -126,8 +165,15 @@ const EditTaskForm = ({ editTask }) => {
                   </Select>
                 </FormControl>
               </Grid>
+              { editAllDay ? allDayTrue() : allDayFalse() }
               <Grid item xs={12}>
-                <Button type="submit" variant="contained">Edit Task</Button>
+                <Stack direction="row" spacing={2}>
+                  <Button type="submit" variant="contained">Confirm</Button>
+                  <Button variant="contained" color='secondary' onClick={handleCancel}>Cancel</Button>
+                  <IconButton aria-label="delete" size="large">
+                    <DeleteIcon fontSize="inherit" />
+                  </IconButton>
+                </Stack>
                 <div>
                   {errors && (
                   <ul style={{ color: "red" }}>

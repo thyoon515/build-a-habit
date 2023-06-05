@@ -33,6 +33,7 @@ const Today = ({ currentUserTasks, setEditTask }) => {
           center: 'title',
           end: 'timeGridDay,timeGridWeek,dayGridMonth'
         }}
+        slotMinTime="05:00:00"
       />
     </div>
     
