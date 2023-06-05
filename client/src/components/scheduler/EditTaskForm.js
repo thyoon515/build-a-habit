@@ -7,10 +7,10 @@ import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs from 'dayjs';
-// import FormControl from '@mui/material/FormControl';
-// import Select from '@mui/material/Select';
-// import InputLabel from '@mui/material/InputLabel';
-// import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
 
 const EditTaskForm = ({ editTask }) => {
 
@@ -25,6 +25,7 @@ const EditTaskForm = ({ editTask }) => {
     });
     const [editStart, setEditStart] = useState(dayjs(editTask.startStr));
     const [editEnd, setEditEnd] = useState(dayjs(editTask.endStr));
+    const [editAllDay, setEditAllDay] = useState(editTask.allDay);
     const [errors, setErrors] = useState([]);
 
     const handleEditedItem = (editedItem) => {
@@ -83,16 +84,6 @@ const EditTaskForm = ({ editTask }) => {
       })
     }
 
-    // const handleChangeLocation = (e) => {
-    //   setEditSelectLocation(e.target.value)
-    // }
-
-    // const displayLocation = locations.map((location) => {
-    //   return (
-    //     <MenuItem key={location.id} value={location.id}>{location.nyc_borough_name}</MenuItem>
-    //   )
-    // })
-
   return (
     <form onSubmit={handleSubmitEdit}>
         <Container maxWidth="sm">
@@ -123,27 +114,18 @@ const EditTaskForm = ({ editTask }) => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  multiline 
-                  id="allDay" 
-                  onChange={handleEditChange} 
-                  value={editTaskFormData.allDay} 
-                  label="All Day?" 
-                />
-              </Grid>
-              {/* <Grid item xs={12}>
                 <FormControl fullWidth>
-                  <InputLabel>Select NYC Borough</InputLabel>
+                  <InputLabel>All Day?</InputLabel>
                   <Select
-                    id="selectLocation"
-                    value={editSelectLocation}
-                    label="Select NYC Borough"
-                    onChange={handleChangeLocation} >
-                      {displayLocation}
+                    id="allDay"
+                    value={editAllDay}
+                    label="All Day?"
+                    onChange={(e) => {setEditAllDay(e.target.value)}} >
+                      <MenuItem value={true}>Yes</MenuItem>
+                      <MenuItem value={false}>No</MenuItem>
                   </Select>
                 </FormControl>
-              </Grid> */}
+              </Grid>
               <Grid item xs={12}>
                 <Button type="submit" variant="contained">Edit Task</Button>
                 <div>
