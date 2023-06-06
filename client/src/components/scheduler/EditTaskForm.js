@@ -1,10 +1,10 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
-import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -43,27 +43,54 @@ const EditTaskForm = ({ editTask, currentUserTasks, setCurrentUserTasks, tasks, 
       )
     })
 
-    const handleEditedItem = (editedItem) => {
-    //   const updatedCurrentUserItems = currentUser.items.map(item => {
-    //     if(item.id === editedItem.id){
-    //       return editedItem
-    //     } else {
-    //       return item
-    //     }
-    //   })
-    //   currentUser.items = updatedCurrentUserItems
-    //   const updatedItems = items.map(item => {
-    //     if(item.id === editedItem.id){
-    //       return editedItem
-    //     } else {
-    //       return item
-    //     }
-    //   })
-    //   setItems(updatedItems)
+    const handleEditedTask = (editedTask) => {
+        const updatedCurrentUserTasks = currentUserTasks.map(task => {
+          if(task.id === editedTask.id){
+            return editedTask
+          } else {
+            return task
+          }
+        })
+        setCurrentUserTasks(updatedCurrentUserTasks)
+
+        const updatedTasks = tasks.map(task => {
+          if(task.id === editedTask.id){
+            return editedTask
+          } else {
+            return task
+          }
+        })
+        setTasks(updatedTasks)
     }
   
     const handleSubmitEdit = (e) => {
       e.preventDefault();
+        fetch(`/tasks/${editTask.id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type" : "application/json"
+          },
+          body: JSON.stringify({
+            title: editTitle,
+            start: editStart,
+            end: editEnd,
+            allDay: editAllDay,
+            priority_id: editPriority,
+            category_id: editCategory
+          }),
+        })
+          .then((r) => {
+            if(r.ok){
+              r.json().then((editedTask) => {
+                handleEditedTask(editedTask)
+                navigate('/today')
+              })
+            }else{
+              r.json().then((e) => {
+                setErrors(e.errors)
+              })
+            }
+          })
     //   fetch(`/items/${editItem.id}`, {
     //     method: "PATCH",
     //     headers: {

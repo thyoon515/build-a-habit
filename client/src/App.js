@@ -1,15 +1,16 @@
 import { useState, useEffect, useContext } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { CurrentUserContext } from './context/CurrentUser';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Home from "./components/static/Home";
 import Login from "./components/sessions/Login";
 import Signup from "./components/sessions/Signup";
 import NavBar from "./components/navigation/NavBar";
 import Today from "./components/scheduler/Today";
-import Test from "./components/scheduler/Test";
-import { CurrentUserContext } from './context/CurrentUser';
 import EditTaskForm from "./components/scheduler/EditTaskForm";
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import AddTaskForm from "./components/scheduler/AddTaskForm";
+import Test from "./components/scheduler/Test";
 
 function App() {
   
@@ -22,8 +23,6 @@ function App() {
   const [priorities, setPriorities] = useState([]);
   const [editTask, setEditTask] = useState([]);
 
-  console.log(priorities)
-
   useEffect(() => {
     fetch('/tasks')
       .then(r => r.json())
@@ -35,7 +34,6 @@ function App() {
       .then(r => r.json())
       .then(priorityData => setPriorities(priorityData))
   }, [])
-  
   
   useEffect(() =>{
     const filteredTasks = tasks.filter(task => task.user.id === currentUser.id);
@@ -68,6 +66,7 @@ function App() {
           <Route path="/signup" element={<Signup setUserLoggedIn={setUserLoggedIn} />} />
           <Route path="/today" element={<Today currentUserTasks={currentUserTasks} setEditTask={setEditTask} />} />
           <Route path="/tasks/:id/edit" element={<EditTaskForm editTask={editTask} currentUserTasks={currentUserTasks} setCurrentUserTasks={setCurrentUserTasks} tasks={tasks} setTasks={setTasks} currentUserCategories={currentUserCategories} priorities={priorities} />} />
+          <Route path="/tasks/new" element={<AddTaskForm />} />
           <Route path="/test" element={<Test />} />
         </Routes>
       </BrowserRouter>
