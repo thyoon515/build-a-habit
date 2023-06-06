@@ -19,7 +19,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 
-const EditTaskForm = ({ editTask, currentUserTasks, setCurrentUserTasks, tasks, setTasks }) => {
+const EditTaskForm = ({ editTask, currentUserTasks, setCurrentUserTasks, tasks, setTasks, currentUserCategories }) => {
 
     console.log(editTask.extendedProps)
 
@@ -29,7 +29,14 @@ const EditTaskForm = ({ editTask, currentUserTasks, setCurrentUserTasks, tasks, 
     const [editAllDay, setEditAllDay] = useState(editTask.allDay);
     const [editStart, setEditStart] = useState(dayjs(editTask.startStr));
     const [editEnd, setEditEnd] = useState(dayjs(editTask.endStr));
+    const [editCategory, setEditCategory] = useState(editTask.extendedProps.category.id);
     const [errors, setErrors] = useState([]);
+
+    const displayCategoryMenu = currentUserCategories.map((category) => {
+      return(
+        <MenuItem key={category.id} value={category.id}>{category.title}</MenuItem>
+      )
+    })
 
     const handleEditedItem = (editedItem) => {
     //   const updatedCurrentUserItems = currentUser.items.map(item => {
@@ -189,6 +196,18 @@ const EditTaskForm = ({ editTask, currentUserTasks, setCurrentUserTasks, tasks, 
                   </Select>
                 </FormControl> */}
               { editAllDay ? allDayTrue() : allDayFalse() }
+              <Grid item xs={12}>
+                <FormControl fullWidth>
+                  <InputLabel>Choose Category</InputLabel>
+                  <Select
+                    id="category"
+                    value={editCategory}
+                    label="Choose Category"
+                    onChange={(e) => {setEditCategory(e.target.value)}} >
+                      {displayCategoryMenu}
+                  </Select>
+                </FormControl>
+              </Grid>
               <Grid item xs={12}>
                 <Stack direction="row" spacing={2}>
                   <Button type="submit" variant="contained">Confirm</Button>

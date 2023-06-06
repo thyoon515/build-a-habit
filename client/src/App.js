@@ -11,7 +11,6 @@ import EditTaskForm from "./components/scheduler/EditTaskForm";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
-
 function App() {
   
   // eslint-disable-next-line
@@ -19,18 +18,27 @@ function App() {
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [currentUserTasks, setCurrentUserTasks] = useState([]);
+  const [currentUserCategories, setCurrentUserCategories] = useState([]);
+  const [priorities, setPriorities] = useState([]);
   const [editTask, setEditTask] = useState([]);
+
+  console.log(currentUserCategories)
 
   useEffect(() => {
     fetch('/tasks')
       .then(r => r.json())
       .then(allTasks => setTasks(allTasks))
-  },[])
-
+  },[]);
+  
   useEffect(() =>{
     const filteredTasks = tasks.filter(task => task.user.id === currentUser.id);
-    setCurrentUserTasks(filteredTasks)
-  },[tasks, currentUser.id])
+      setCurrentUserTasks(filteredTasks);
+  },[tasks, currentUser.id]);
+
+  useEffect(() => {
+    const getCategories = currentUserTasks.map(task => task.category);
+    setCurrentUserCategories(getCategories);
+  }, [currentUserTasks]);
 
   useEffect(() => {
     fetch('/me').then((response) => {
@@ -52,7 +60,7 @@ function App() {
           <Route path="/login" element={<Login setUserLoggedIn={setUserLoggedIn} />} />
           <Route path="/signup" element={<Signup setUserLoggedIn={setUserLoggedIn} />} />
           <Route path="/today" element={<Today currentUserTasks={currentUserTasks} setEditTask={setEditTask} />} />
-          <Route path="/tasks/:id/edit" element={<EditTaskForm editTask={editTask} currentUserTasks={currentUserTasks} setCurrentUserTasks={setCurrentUserTasks} tasks={tasks} setTasks={setTasks} />} />
+          <Route path="/tasks/:id/edit" element={<EditTaskForm editTask={editTask} currentUserTasks={currentUserTasks} setCurrentUserTasks={setCurrentUserTasks} tasks={tasks} setTasks={setTasks} currentUserCategories={currentUserCategories} />} />
           <Route path="/test" element={<Test />} />
         </Routes>
       </BrowserRouter>
