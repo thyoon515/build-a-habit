@@ -7,12 +7,6 @@ import { useNavigate } from 'react-router-dom';
 
 const Today = ({ currentUserTasks, setEditTask }) => {
 
-  // const eventObjects = currentUserTasks.map((task) => ({
-  //   title: task.title,
-  //   start: new Date(task.start),
-  //   end: new Date(task.end),
-  //   taskId: task.id
-  // }))
   const navigate = useNavigate();
 
   const handleEventClick = (eventInfo) => {

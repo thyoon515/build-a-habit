@@ -16,20 +16,19 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Stack from '@mui/material/Stack';
 
-const EditTaskForm = ({ editTask }) => {
-
-    console.log(editTask.startStr)
+const EditTaskForm = ({ editTask, currentUserTasks, setCurrentUserTasks, tasks, setTasks }) => {
 
     const navigate = useNavigate();
 
-    const [editTaskFormData, setEditTaskFormData] = useState({
-      title: editTask.title,
-      end: editTask.end,
-      allDay: editTask.allDay
-    });
+    // const [editTaskFormData, setEditTaskFormData] = useState({
+    //   title: editTask.title,
+    //   end: editTask.end,
+    //   allDay: editTask.allDay
+    // });
+    const [editTitle, setEditTitle] = useState(editTask.title);
+    const [editAllDay, setEditAllDay] = useState(editTask.allDay);
     const [editStart, setEditStart] = useState(dayjs(editTask.startStr));
     const [editEnd, setEditEnd] = useState(dayjs(editTask.endStr));
-    const [editAllDay, setEditAllDay] = useState(editTask.allDay);
     const [errors, setErrors] = useState([]);
 
     const handleEditedItem = (editedItem) => {
@@ -79,14 +78,6 @@ const EditTaskForm = ({ editTask }) => {
     //     }
     //   })
     }
-  
-    const handleEditChange = (e) => {
-      const key = e.target.id
-      setEditTaskFormData({
-        ...editTaskFormData,
-        [key]: e.target.value
-      })
-    }
 
     const allDayTrue = () => {
       return (
@@ -134,7 +125,32 @@ const EditTaskForm = ({ editTask }) => {
       const shouldDiscardChanges = window.confirm('Discard changes?');
       if (shouldDiscardChanges) {
       navigate('/today');
+      }
     }
+
+    const handleDelete = () => {
+      fetch(`/tasks/${editTask.id}`, {
+        method:'DELETE'
+      })
+      .then(res => {
+        if(res.ok){
+          res.json().then((deletedTask) => {
+           handleRemoveTask(deletedTask)
+           navigate('/today')
+          })
+        }else{
+          res.json().then((e) => {
+            setErrors(e.error)
+          })
+        }
+      })
+    }
+
+    const handleRemoveTask = (deletedTask) => {
+      const removeDeletedTaskFromCurrentUserTasks = currentUserTasks.filter(task => task.id !== deletedTask.id)
+        setCurrentUserTasks(removeDeletedTaskFromCurrentUserTasks)
+      const filterTasksForDeletedTask = tasks.filter(task => task.id !== deletedTask.id)
+        setTasks(filterTasksForDeletedTask)
     }
 
   return (
@@ -147,8 +163,8 @@ const EditTaskForm = ({ editTask }) => {
                   fullWidth
                   multiline 
                   id="title" 
-                  onChange={handleEditChange} 
-                  value={editTaskFormData.title} 
+                  onChange={(newTitle) => setEditTitle(newTitle)} 
+                  value={editTitle} 
                   label="Title" 
                 />
               </Grid>
@@ -170,7 +186,7 @@ const EditTaskForm = ({ editTask }) => {
                 <Stack direction="row" spacing={2}>
                   <Button type="submit" variant="contained">Confirm</Button>
                   <Button variant="contained" color='secondary' onClick={handleCancel}>Cancel</Button>
-                  <IconButton aria-label="delete" size="large">
+                  <IconButton aria-label="delete" size="large" onClick={handleDelete}>
                     <DeleteIcon fontSize="inherit" />
                   </IconButton>
                 </Stack>
