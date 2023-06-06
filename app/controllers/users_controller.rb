@@ -2,10 +2,6 @@ class UsersController < ApplicationController
     before_action :authorize
     skip_before_action :authorize, only: [:create]
 
-    def index
-        render json: User.all
-    end
-
     def show
         user = User.find(session[:user_id])
         if user

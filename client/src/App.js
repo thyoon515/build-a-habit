@@ -22,13 +22,20 @@ function App() {
   const [priorities, setPriorities] = useState([]);
   const [editTask, setEditTask] = useState([]);
 
-  console.log(currentUserCategories)
+  console.log(priorities)
 
   useEffect(() => {
     fetch('/tasks')
       .then(r => r.json())
       .then(allTasks => setTasks(allTasks))
   },[]);
+
+  useEffect(() => {
+    fetch('/priorities')
+      .then(r => r.json())
+      .then(priorityData => setPriorities(priorityData))
+  }, [])
+  
   
   useEffect(() =>{
     const filteredTasks = tasks.filter(task => task.user.id === currentUser.id);
@@ -60,7 +67,7 @@ function App() {
           <Route path="/login" element={<Login setUserLoggedIn={setUserLoggedIn} />} />
           <Route path="/signup" element={<Signup setUserLoggedIn={setUserLoggedIn} />} />
           <Route path="/today" element={<Today currentUserTasks={currentUserTasks} setEditTask={setEditTask} />} />
-          <Route path="/tasks/:id/edit" element={<EditTaskForm editTask={editTask} currentUserTasks={currentUserTasks} setCurrentUserTasks={setCurrentUserTasks} tasks={tasks} setTasks={setTasks} currentUserCategories={currentUserCategories} />} />
+          <Route path="/tasks/:id/edit" element={<EditTaskForm editTask={editTask} currentUserTasks={currentUserTasks} setCurrentUserTasks={setCurrentUserTasks} tasks={tasks} setTasks={setTasks} currentUserCategories={currentUserCategories} priorities={priorities} />} />
           <Route path="/test" element={<Test />} />
         </Routes>
       </BrowserRouter>

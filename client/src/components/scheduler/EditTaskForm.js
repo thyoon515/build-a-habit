@@ -19,7 +19,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 
-const EditTaskForm = ({ editTask, currentUserTasks, setCurrentUserTasks, tasks, setTasks, currentUserCategories }) => {
+const EditTaskForm = ({ editTask, currentUserTasks, setCurrentUserTasks, tasks, setTasks, currentUserCategories, priorities }) => {
 
     console.log(editTask.extendedProps)
 
@@ -30,11 +30,18 @@ const EditTaskForm = ({ editTask, currentUserTasks, setCurrentUserTasks, tasks, 
     const [editStart, setEditStart] = useState(dayjs(editTask.startStr));
     const [editEnd, setEditEnd] = useState(dayjs(editTask.endStr));
     const [editCategory, setEditCategory] = useState(editTask.extendedProps.category.id);
+    const [editPriority, setEditPriority] = useState(editTask.extendedProps.priority.id);
     const [errors, setErrors] = useState([]);
 
     const displayCategoryMenu = currentUserCategories.map((category) => {
       return(
         <MenuItem key={category.id} value={category.id}>{category.title}</MenuItem>
+      )
+    })
+
+    const displayPriorityMenu = priorities.map((eachPriority) => {
+      return(
+        <MenuItem key={eachPriority.id} value={eachPriority.id}>{eachPriority.order}</MenuItem>
       )
     })
 
@@ -181,21 +188,10 @@ const EditTaskForm = ({ editTask, currentUserTasks, setCurrentUserTasks, tasks, 
               <Grid item xs={12}>
                 <FormGroup>
                   <FormControlLabel control={
-                    <Switch checked={editAllDay} onChange={(e) => {setEditAllDay(e.target.checked)}} />} label="All Day?"/>
+                    <Switch checked={editAllDay} onChange={(e) => {setEditAllDay(e.target.checked)}} />} label="All Day"/>
                 </FormGroup>
               </Grid>
-                {/* <FormControl fullWidth>
-                  <InputLabel>All Day?</InputLabel>
-                  <Select
-                    id="allDay"
-                    value={editAllDay}
-                    label="All Day?"
-                    onChange={(e) => {setEditAllDay(e.target.value)}} >
-                      <MenuItem value={true}>Yes</MenuItem>
-                      <MenuItem value={false}>No</MenuItem>
-                  </Select>
-                </FormControl> */}
-              { editAllDay ? allDayTrue() : allDayFalse() }
+                { editAllDay ? allDayTrue() : allDayFalse() }
               <Grid item xs={12}>
                 <FormControl fullWidth>
                   <InputLabel>Choose Category</InputLabel>
@@ -205,6 +201,18 @@ const EditTaskForm = ({ editTask, currentUserTasks, setCurrentUserTasks, tasks, 
                     label="Choose Category"
                     onChange={(e) => {setEditCategory(e.target.value)}} >
                       {displayCategoryMenu}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                <FormControl>
+                  <InputLabel>Choose Priority</InputLabel>
+                  <Select
+                    id="priority"
+                    value={editPriority}
+                    label="Choose Category"
+                    onChange={(e) => {setEditPriority(e.target.value)}} >
+                      {displayPriorityMenu}
                   </Select>
                 </FormControl>
               </Grid>
