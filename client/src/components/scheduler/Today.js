@@ -4,6 +4,9 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { useNavigate } from 'react-router-dom';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+import Box from '@mui/material/Box';
 
 const Today = ({ currentUserTasks, setEditTask }) => {
 
@@ -14,8 +17,23 @@ const Today = ({ currentUserTasks, setEditTask }) => {
     navigate(`/tasks/${eventInfo.event.id}/edit`)
   };
 
+  const handleAddClick = () => {
+    console.log('clicked')
+  }
+
   return (
-    <div>
+    <>
+      <Box sx={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          marginTop: '20px', 
+          marginBottom: '20px' 
+        }}>
+        <Fab color="primary" aria-label="add">
+          <AddIcon onClick={handleAddClick} />
+        </Fab>
+      </Box>
       <FullCalendar 
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]} 
         initialView="timeGridDay"
@@ -29,8 +47,7 @@ const Today = ({ currentUserTasks, setEditTask }) => {
         }}
         slotMinTime="05:00:00"
       />
-    </div>
-    
+    </>
   )
   }
 

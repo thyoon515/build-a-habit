@@ -21,8 +21,6 @@ import Switch from '@mui/material/Switch';
 
 const EditTaskForm = ({ editTask, currentUserTasks, setCurrentUserTasks, tasks, setTasks, currentUserCategories, priorities }) => {
 
-    console.log(editTask.extendedProps)
-
     const navigate = useNavigate();
 
     const [editTitle, setEditTitle] = useState(editTask.title);
