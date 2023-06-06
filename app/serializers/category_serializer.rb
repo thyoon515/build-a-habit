@@ -1,5 +1,5 @@
 class CategorySerializer < ActiveModel::Serializer
-  attributes :title
+  attributes :id, :title
 
   has_many :tasks
 end

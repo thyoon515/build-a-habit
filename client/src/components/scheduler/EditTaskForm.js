@@ -15,16 +15,16 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Stack from '@mui/material/Stack';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 
 const EditTaskForm = ({ editTask, currentUserTasks, setCurrentUserTasks, tasks, setTasks }) => {
 
+    console.log(editTask.extendedProps)
+
     const navigate = useNavigate();
 
-    // const [editTaskFormData, setEditTaskFormData] = useState({
-    //   title: editTask.title,
-    //   end: editTask.end,
-    //   allDay: editTask.allDay
-    // });
     const [editTitle, setEditTitle] = useState(editTask.title);
     const [editAllDay, setEditAllDay] = useState(editTask.allDay);
     const [editStart, setEditStart] = useState(dayjs(editTask.startStr));
@@ -135,8 +135,11 @@ const EditTaskForm = ({ editTask, currentUserTasks, setCurrentUserTasks, tasks, 
       .then(res => {
         if(res.ok){
           res.json().then((deletedTask) => {
-           handleRemoveTask(deletedTask)
-           navigate('/today')
+            const shouldDeleteTask = window.confirm('Delete this task?');
+            if (shouldDeleteTask) {
+              handleRemoveTask(deletedTask)
+              navigate('/today')
+            }
           })
         }else{
           res.json().then((e) => {
@@ -169,7 +172,12 @@ const EditTaskForm = ({ editTask, currentUserTasks, setCurrentUserTasks, tasks, 
                 />
               </Grid>
               <Grid item xs={12}>
-                <FormControl fullWidth>
+                <FormGroup>
+                  <FormControlLabel control={
+                    <Switch checked={editAllDay} onChange={(e) => {setEditAllDay(e.target.checked)}} />} label="All Day?"/>
+                </FormGroup>
+              </Grid>
+                {/* <FormControl fullWidth>
                   <InputLabel>All Day?</InputLabel>
                   <Select
                     id="allDay"
@@ -179,8 +187,7 @@ const EditTaskForm = ({ editTask, currentUserTasks, setCurrentUserTasks, tasks, 
                       <MenuItem value={true}>Yes</MenuItem>
                       <MenuItem value={false}>No</MenuItem>
                   </Select>
-                </FormControl>
-              </Grid>
+                </FormControl> */}
               { editAllDay ? allDayTrue() : allDayFalse() }
               <Grid item xs={12}>
                 <Stack direction="row" spacing={2}>
