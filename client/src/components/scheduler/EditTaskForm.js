@@ -5,19 +5,19 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs from 'dayjs';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Stack from '@mui/material/Stack';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+import EditAllDayTrueDatePicker from './EditAllDayTrueDatePicker';
+import EditAllDayFalseDateAndTimePicker from './EditAllDayFalseDateAndTimePicker';
 
 const EditTaskForm = ({ editTask, currentUserTasks, setCurrentUserTasks, tasks, setTasks, currentUserCategories, priorities }) => {
 
@@ -91,48 +91,6 @@ const EditTaskForm = ({ editTask, currentUserTasks, setCurrentUserTasks, tasks, 
     //   })
     }
 
-    const allDayTrue = () => {
-      return (
-        <>
-        <Grid item xs={12}>
-            <DatePicker
-              label="Start Date & Time"
-              value={editStart}
-              onChange={(newStart) => setEditStart(newStart)}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <DatePicker
-              label="End Date & Time"
-              value={editEnd}
-              onChange={(newEnd) => setEditEnd(newEnd)}
-            />
-          </Grid>
-        </>
-      )
-    }
-
-    const allDayFalse = () => {
-      return (
-        <>
-          <Grid item xs={12}>
-            <DateTimePicker
-              label="Start Date & Time"
-              value={editStart}
-              onChange={(newStart) => setEditStart(newStart)}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <DateTimePicker
-              label="End Date & Time"
-              value={editEnd}
-              onChange={(newEnd) => setEditEnd(newEnd)}
-            />
-          </Grid>
-        </>
-      )
-    }
-
     const handleCancel = () => {
       const shouldDiscardChanges = window.confirm('Discard changes?');
       if (shouldDiscardChanges) {
@@ -189,7 +147,20 @@ const EditTaskForm = ({ editTask, currentUserTasks, setCurrentUserTasks, tasks, 
                     <Switch checked={editAllDay} onChange={(e) => {setEditAllDay(e.target.checked)}} />} label="All Day"/>
                 </FormGroup>
               </Grid>
-                { editAllDay ? allDayTrue() : allDayFalse() }
+                { editAllDay ? 
+                  <EditAllDayTrueDatePicker 
+                    editStart={editStart} 
+                    setEditStart={setEditStart} 
+                    editEnd={editEnd} 
+                    setEditEnd={setEditEnd} 
+                  /> : 
+                  <EditAllDayFalseDateAndTimePicker 
+                    editStart={editStart} 
+                    setEditStart={setEditStart} 
+                    editEnd={editEnd} 
+                    setEditEnd={setEditEnd}
+                  /> 
+                }
               <Grid item xs={12}>
                 <FormControl fullWidth>
                   <InputLabel>Choose Category</InputLabel>
