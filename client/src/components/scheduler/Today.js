@@ -18,7 +18,7 @@ const Today = ({ currentUserTasks, setEditTask }) => {
   };
 
   const handleAddClick = () => {
-    console.log('clicked')
+    navigate('/task/new')
   }
 
   return (

@@ -183,8 +183,8 @@ const EditTaskForm = ({
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={12}>
-                <FormControl>
+              <Grid item xs={6}>
+                <FormControl fullWidth>
                   <InputLabel>Choose Priority</InputLabel>
                   <Select
                     id="priority"
