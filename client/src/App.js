@@ -40,8 +40,6 @@ function App() {
       setCurrentUserTasks(filteredTasks);
   },[tasks, currentUser.id]);
 
-  console.log(currentUserTasks)
-
   useEffect(() => {
     fetch('/categories')
       .then(r => r.json())

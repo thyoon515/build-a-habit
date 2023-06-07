@@ -47,46 +47,45 @@ const AddTaskForm = ({
     )
   })
 
-  const handleAddTask = (addNewTask) => {
-    // const updatedCurrentUserItems = [...currentUser.items, postNewItem]
-    // currentUser.items = updatedCurrentUserItems
-    // const updatedItems = [...items, postNewItem]
-    // setItems(updatedItems)
-  }
-
   const handleTaskSubmit = (e) => {
     e.preventDefault();
-    // fetch('/items', {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   },
-    //   body: JSON.stringify({
-    //     title: addItemFormData.title,
-    //     image: addItemFormData.image,
-    //     price: addItemFormData.price,
-    //     description: addItemFormData.description,
-    //     location_id: selectLocation
-    //   }),
-    // })
-    //   .then((r) => {
-    //     if(r.ok){
-    //       r.json().then((postNewItem) =>{
-    //         handleAddItem(postNewItem)
-    //         navigate(`/users/${currentUser.id}/items`)
-    //     })
-    //   }else{
-    //       r.json().then((e) => {
-    //         setErrors(e.errors)
-    //       })
-    //   }
-    // })
+      fetch('/tasks', {
+        method: "POST",
+        headers: {
+          "Content-Type" : "application/json"
+        },
+        body: JSON.stringify({
+          title: addTitle,
+          allDay: isItAllDay,
+          start: addStart,
+          end: addEnd,
+          category_id: selectCategory,
+          priority_id: selectPriority
+        })
+      })
+        .then((r) => {
+          if(r.ok){
+            r.json().then((newTask) => {
+              handleAddTask(newTask)
+              navigate('/today')
+            })
+          } else {
+            r.json().then(e => setErrors(e.errors))
+          }
+        })
     // setAddItemFormData({
     //   title: "",
     //   image: "",
     //   price: "",
     //   description: ""
     // })
+  }
+
+  const handleAddTask = (newTask) => {
+    const updatedCurrentUserTasks = [...currentUserTasks, newTask]
+      setCurrentUserTasks(updatedCurrentUserTasks)
+    const updatedTasks = [...tasks, newTask]
+      setTasks(updatedTasks)
   }
 
   const handleAddCancel = () => {
@@ -106,7 +105,7 @@ const AddTaskForm = ({
                   fullWidth
                   multiline 
                   id="title" 
-                  onChange={(inputTitle) => setAddTitle(inputTitle)} 
+                  onChange={(e) => setAddTitle(e.target.value)} 
                   value={addTitle}
                   label="Title" 
                 />
