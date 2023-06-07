@@ -19,139 +19,122 @@ import Switch from '@mui/material/Switch';
 import EditAllDayTrueDatePicker from './EditAllDayTrueDatePicker';
 import EditAllDayFalseDateAndTimePicker from './EditAllDayFalseDateAndTimePicker';
 
-const EditTaskForm = ({ editTask, currentUserTasks, setCurrentUserTasks, tasks, setTasks, currentUserCategories, priorities }) => {
+const EditTaskForm = ({ 
+  editTask, 
+  currentUserTasks, 
+  setCurrentUserTasks, 
+  tasks, 
+  setTasks, 
+  currentUserCategories, 
+  priorities 
+}) => {
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [editTitle, setEditTitle] = useState(editTask.title);
+  const [editAllDay, setEditAllDay] = useState(editTask.allDay);
+  const [editStart, setEditStart] = useState(dayjs(editTask.startStr));
+  const [editEnd, setEditEnd] = useState(dayjs(editTask.endStr));
+  const [editCategory, setEditCategory] = useState(editTask.extendedProps.category.id);
+  const [editPriority, setEditPriority] = useState(editTask.extendedProps.priority.id);
+  const [errors, setErrors] = useState([]);
 
-    const [editTitle, setEditTitle] = useState(editTask.title);
-    const [editAllDay, setEditAllDay] = useState(editTask.allDay);
-    const [editStart, setEditStart] = useState(dayjs(editTask.startStr));
-    const [editEnd, setEditEnd] = useState(dayjs(editTask.endStr));
-    const [editCategory, setEditCategory] = useState(editTask.extendedProps.category.id);
-    const [editPriority, setEditPriority] = useState(editTask.extendedProps.priority.id);
-    const [errors, setErrors] = useState([]);
+  const displayCategoryMenu = currentUserCategories.map((category) => {
+    return(
+      <MenuItem key={category.id} value={category.id}>{category.title}</MenuItem>
+    )
+  })
 
-    const displayCategoryMenu = currentUserCategories.map((category) => {
-      return(
-        <MenuItem key={category.id} value={category.id}>{category.title}</MenuItem>
-      )
-    })
+  const displayPriorityMenu = priorities.map((eachPriority) => {
+    return(
+      <MenuItem key={eachPriority.id} value={eachPriority.id}>{eachPriority.order}</MenuItem>
+    )
+  })
 
-    const displayPriorityMenu = priorities.map((eachPriority) => {
-      return(
-        <MenuItem key={eachPriority.id} value={eachPriority.id}>{eachPriority.order}</MenuItem>
-      )
-    })
-
-    const handleEditedTask = (editedTask) => {
-        const updatedCurrentUserTasks = currentUserTasks.map(task => {
-          if(task.id === editedTask.id){
-            return editedTask
-          } else {
-            return task
-          }
-        })
-        setCurrentUserTasks(updatedCurrentUserTasks)
-
-        const updatedTasks = tasks.map(task => {
-          if(task.id === editedTask.id){
-            return editedTask
-          } else {
-            return task
-          }
-        })
-        setTasks(updatedTasks)
-    }
-  
-    const handleSubmitEdit = (e) => {
-      e.preventDefault();
-        fetch(`/tasks/${editTask.id}`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type" : "application/json"
-          },
-          body: JSON.stringify({
-            title: editTitle,
-            start: editStart,
-            end: editEnd,
-            allDay: editAllDay,
-            priority_id: editPriority,
-            category_id: editCategory
-          }),
-        })
-          .then((r) => {
-            if(r.ok){
-              r.json().then((editedTask) => {
-                handleEditedTask(editedTask)
-                navigate('/today')
-              })
-            }else{
-              r.json().then((e) => {
-                setErrors(e.errors)
-              })
-            }
-          })
-    //   fetch(`/items/${editItem.id}`, {
-    //     method: "PATCH",
-    //     headers: {
-    //       "Content-Type": "application/json"
-    //     },
-    //     body: JSON.stringify({
-    //       title: editTaskFormData.title,
-    //       image: editTaskFormData.image,
-    //       price: editTaskFormData.price,
-    //       description: editTaskFormData.description,
-    //       location_id: editSelectLocation
-    //     }),
-    //   })
-    //     .then((r) => {
-    //       if(r.ok){
-    //         r.json().then((editedItem) =>{
-    //             handleEditedItem(editedItem)
-    //             navigate(`/users/${currentUser.id}/items`)
-    //         })
-    //     }else{
-    //         r.json().then((e) => {
-    //           setErrors(e.errors)
-    //         })
-    //     }
-    //   })
-    }
-
-    const handleCancel = () => {
-      const shouldDiscardChanges = window.confirm('Discard changes?');
-      if (shouldDiscardChanges) {
-      navigate('/today');
-      }
-    }
-
-    const handleDelete = () => {
-      fetch(`/tasks/${editTask.id}`, {
-        method:'DELETE'
-      })
-      .then(res => {
-        if(res.ok){
-          res.json().then((deletedTask) => {
-            const shouldDeleteTask = window.confirm('Delete this task?');
-            if (shouldDeleteTask) {
-              handleRemoveTask(deletedTask)
-              navigate('/today')
-            }
-          })
-        }else{
-          res.json().then((e) => {
-            setErrors(e.error)
-          })
+  const handleEditedTask = (editedTask) => {
+      const updatedCurrentUserTasks = currentUserTasks.map(task => {
+        if(task.id === editedTask.id){
+          return editedTask
+        } else {
+          return task
         }
       })
-    }
+      setCurrentUserTasks(updatedCurrentUserTasks)
 
-    const handleRemoveTask = (deletedTask) => {
-      const removeDeletedTaskFromCurrentUserTasks = currentUserTasks.filter(task => task.id !== deletedTask.id)
-        setCurrentUserTasks(removeDeletedTaskFromCurrentUserTasks)
-      const filterTasksForDeletedTask = tasks.filter(task => task.id !== deletedTask.id)
-        setTasks(filterTasksForDeletedTask)
+      const updatedTasks = tasks.map(task => {
+        if(task.id === editedTask.id){
+          return editedTask
+        } else {
+          return task
+        }
+      })
+      setTasks(updatedTasks)
+  }
+  
+  const handleSubmitEdit = (e) => {
+    e.preventDefault();
+      fetch(`/tasks/${editTask.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type" : "application/json"
+        },
+        body: JSON.stringify({
+          title: editTitle,
+          start: editStart,
+          end: editEnd,
+          allDay: editAllDay,
+          priority_id: editPriority,
+          category_id: editCategory
+        }),
+      })
+        .then((r) => {
+          if(r.ok){
+            r.json().then((editedTask) => {
+              handleEditedTask(editedTask)
+              navigate('/today')
+            })
+          }else{
+            r.json().then((e) => {
+              setErrors(e.errors)
+            })
+          }
+        })
+
+  }
+
+  const handleCancel = () => {
+    const shouldDiscardChanges = window.confirm('Discard changes?');
+    if (shouldDiscardChanges) {
+    navigate('/today');
     }
+  }
+
+  const handleDelete = () => {
+    fetch(`/tasks/${editTask.id}`, {
+      method:'DELETE'
+    })
+    .then(res => {
+      if(res.ok){
+        res.json().then((deletedTask) => {
+          const shouldDeleteTask = window.confirm('Delete this task?');
+          if (shouldDeleteTask) {
+            handleRemoveTask(deletedTask)
+            navigate('/today')
+          }
+        })
+      }else{
+        res.json().then((e) => {
+          setErrors(e.error)
+        })
+      }
+    })
+  }
+
+  const handleRemoveTask = (deletedTask) => {
+    const removeDeletedTaskFromCurrentUserTasks = currentUserTasks.filter(task => task.id !== deletedTask.id)
+      setCurrentUserTasks(removeDeletedTaskFromCurrentUserTasks)
+    const filterTasksForDeletedTask = tasks.filter(task => task.id !== deletedTask.id)
+      setTasks(filterTasksForDeletedTask)
+  }
 
   return (
     <form onSubmit={handleSubmitEdit}>
@@ -233,7 +216,7 @@ const EditTaskForm = ({ editTask, currentUserTasks, setCurrentUserTasks, tasks, 
             </Grid>
           </Box>
         </Container>
-  </form>
+    </form>
   )
 }
 

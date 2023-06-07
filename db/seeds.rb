@@ -21,3 +21,4 @@
 # Task.create!(title: 'Vacuum the house', start: '2023-05-30T09:00:00', end: '2023-05-30T09:30:00', allDay: false, category_id: Category.first.id, priority_id: Priority.second.id, user_id: User.first.id)
 # Task.create!(title: 'Work Out', start: '2023-05-30T09:45:00', end: '2023-05-30T10:45:00', allDay: false, category_id: Category.second.id, priority_id: Priority.third.id, user_id: User.first.id)
 # Task.create!(title: 'Finish the project', start: '2023-05-30', end: '2023-05-30', allDay: true, category_id: Category.third.id, priority_id: Priority.first.id, user_id: User.first.id)
+# Task.create!(title: 'Finish the project ASAP', start: '2023-06-06', end: '2023-06-06', allDay: true, category_id: Category.third.id, priority_id: Priority.first.id, user_id: User.second.id)
