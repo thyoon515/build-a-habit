@@ -2,11 +2,11 @@ class Priority < ApplicationRecord
     has_many :tasks
     has_many :categories, through: :tasks
 
-    # before_save :assign_task_color
+    before_validation :set_color_from_priority, on: :create
 
-    # private
+    private
 
-    # def assign_task_color
-    #     self.color = tasks.first&.color if tasks.present?
-    # end
+    def set_color_from_priority
+        self.color = priority.color if priority.present?
+    end
 end

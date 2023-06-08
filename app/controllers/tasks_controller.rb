@@ -39,7 +39,7 @@ class TasksController < ApplicationController
     end
 
     def task_params
-        params.permit(:title, :start, :end, :allDay, :category_id, :priority_id)
+        params.permit(:title, :start, :end, :allDay, :category_id, :priority_id, :color)
     end
 
     def render_not_found_response

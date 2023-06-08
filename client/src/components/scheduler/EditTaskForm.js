@@ -70,8 +70,15 @@ const EditTaskForm = ({
       setTasks(updatedTasks)
   }
   
+  const updateTaskColor = (priorityId) => {
+    const selectedPriority = priorities.find((priority) => priority.id === priorityId);
+    return selectedPriority.color
+  }
+
   const handleSubmitEdit = (e) => {
     e.preventDefault();
+    const editTaskColor = updateTaskColor(editPriority);
+
       fetch(`/tasks/${editTask.id}`, {
         method: "PATCH",
         headers: {
@@ -83,7 +90,8 @@ const EditTaskForm = ({
           end: editEnd,
           allDay: editAllDay,
           priority_id: editPriority,
-          category_id: editCategory
+          category_id: editCategory,
+          color: editTaskColor
         }),
       })
         .then((r) => {
