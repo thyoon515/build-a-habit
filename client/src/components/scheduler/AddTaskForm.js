@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
@@ -33,6 +33,7 @@ const AddTaskForm = ({
   const [addEnd, setAddEnd] = useState(dayjs());
   const [selectCategory, setSelectCategory] = useState('');
   const [selectPriority, setSelectPriority] = useState('');
+  const [taskColor, setTaskColor] = useState('')
   const [errors, setErrors] = useState([]);
 
   const displayCategoryMenu = currentUserCategories.map((category) => {
@@ -47,6 +48,16 @@ const AddTaskForm = ({
     )
   })
 
+  useEffect(() => {
+    const findPriority = priorities.find((priority) => {
+      return priority.id === selectPriority
+    })
+    setTaskColor(findPriority)
+
+  }, [priorities, selectPriority])
+  
+  console.log(taskColor)
+
   const handleTaskSubmit = (e) => {
     e.preventDefault();
       fetch('/tasks', {
@@ -60,7 +71,8 @@ const AddTaskForm = ({
           start: addStart,
           end: addEnd,
           category_id: selectCategory,
-          priority_id: selectPriority
+          priority_id: selectPriority,
+          color: taskColor.color
         })
       })
         .then((r) => {
