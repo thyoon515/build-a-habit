@@ -24,7 +24,7 @@ const NavBar = ({ setUserLoggedIn, userLoggedIn }) => {
   const loggedInLinks = () => {
     return(
       <>
-        <Button color="inherit" component={ Link } to="/today">Today</Button>
+        <Button color="inherit" component={ Link } to="/tasks">Today</Button>
         <Button color="inherit" onClick={ handleLogout }>Logout</Button>
       </>
     )

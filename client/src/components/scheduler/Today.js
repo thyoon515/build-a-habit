@@ -14,11 +14,11 @@ const Today = ({ currentUserTasks, setEditTask }) => {
 
   const handleEventClick = (eventInfo) => {
     setEditTask(eventInfo.event)
-    navigate('/task/edit')
+    navigate('/tasks/edit')
   };
 
   const handleAddClick = () => {
-    navigate('/task/new')
+    navigate('/tasks/new')
   }
 
   return (

@@ -18,7 +18,7 @@ function App() {
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [currentUserTasks, setCurrentUserTasks] = useState([]);
-  const [currentUserCategories, setCurrentUserCategories] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [priorities, setPriorities] = useState([]);
   const [editTask, setEditTask] = useState([]);
 
@@ -42,7 +42,7 @@ function App() {
   useEffect(() => {
     fetch('/categories')
       .then(r => r.json())
-      .then(allCategories => setCurrentUserCategories(allCategories))
+      .then(allCategories => setCategories(allCategories))
   }, [])
   
 
@@ -65,9 +65,9 @@ function App() {
           <Route path="/" element={<Home userLoggedIn={userLoggedIn} />} />
           <Route path="/login" element={<Login setUserLoggedIn={setUserLoggedIn} />} />
           <Route path="/signup" element={<Signup setUserLoggedIn={setUserLoggedIn} />} />
-          <Route path="/today" element={<Today currentUserTasks={currentUserTasks} setEditTask={setEditTask} />} />
-          <Route path="/task/edit" element={<EditTaskForm editTask={editTask} currentUserTasks={currentUserTasks} setCurrentUserTasks={setCurrentUserTasks} tasks={tasks} setTasks={setTasks} currentUserCategories={currentUserCategories} priorities={priorities} />} />
-          <Route path="/task/new" element={<AddTaskForm currentUserTasks={currentUserTasks} setCurrentUserTasks={setCurrentUserTasks} tasks={tasks} setTasks={setTasks} currentUserCategories={currentUserCategories} priorities={priorities} />} />
+          <Route path="/tasks" element={<Today currentUserTasks={currentUserTasks} setEditTask={setEditTask} />} />
+          <Route path="/tasks/edit" element={<EditTaskForm editTask={editTask} currentUserTasks={currentUserTasks} setCurrentUserTasks={setCurrentUserTasks} tasks={tasks} setTasks={setTasks} categories={categories} priorities={priorities} />} />
+          <Route path="/tasks/new" element={<AddTaskForm currentUserTasks={currentUserTasks} setCurrentUserTasks={setCurrentUserTasks} tasks={tasks} setTasks={setTasks} categories={categories} priorities={priorities} />} />
         </Routes>
       </BrowserRouter>
     </LocalizationProvider>

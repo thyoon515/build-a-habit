@@ -22,7 +22,7 @@ const AddTaskForm = ({
   setCurrentUserTasks, 
   tasks, 
   setTasks, 
-  currentUserCategories, 
+  categories, 
   priorities 
 }) => {
 
@@ -35,7 +35,7 @@ const AddTaskForm = ({
   const [selectPriority, setSelectPriority] = useState('');
   const [errors, setErrors] = useState([]);
 
-  const displayCategoryMenu = currentUserCategories.map((category) => {
+  const displayCategoryMenu = categories.map((category) => {
     return(
       <MenuItem key={category.id} value={category.id}>{category.title}</MenuItem>
     )
@@ -75,7 +75,7 @@ const AddTaskForm = ({
           if(r.ok){
             r.json().then((newTask) => {
               handleAddTask(newTask)
-              navigate('/today')
+              navigate('/tasks')
             })
           } else {
             r.json().then(e => setErrors(e.errors))
@@ -93,7 +93,7 @@ const AddTaskForm = ({
   const handleAddCancel = () => {
     const shouldDiscard = window.confirm('Discard?');
     if (shouldDiscard) {
-    navigate('/today');
+    navigate('/tasks');
     }
   }
 

@@ -25,7 +25,7 @@ const EditTaskForm = ({
   setCurrentUserTasks, 
   tasks, 
   setTasks, 
-  currentUserCategories, 
+  categories, 
   priorities 
 }) => {
 
@@ -38,7 +38,7 @@ const EditTaskForm = ({
   const [editPriority, setEditPriority] = useState(editTask.extendedProps.priority.id);
   const [errors, setErrors] = useState([]);
 
-  const displayCategoryMenu = currentUserCategories.map((category) => {
+  const displayCategoryMenu = categories.map((category) => {
     return(
       <MenuItem key={category.id} value={category.id}>{category.title}</MenuItem>
     )
@@ -98,7 +98,7 @@ const EditTaskForm = ({
           if(r.ok){
             r.json().then((editedTask) => {
               handleEditedTask(editedTask)
-              navigate('/today')
+              navigate('/tasks')
             })
           }else{
             r.json().then((e) => {
@@ -112,7 +112,7 @@ const EditTaskForm = ({
   const handleCancel = () => {
     const shouldDiscardChanges = window.confirm('Discard changes?');
     if (shouldDiscardChanges) {
-    navigate('/today');
+    navigate('/tasks');
     }
   }
 
@@ -126,7 +126,7 @@ const EditTaskForm = ({
           const shouldDeleteTask = window.confirm('Delete this task?');
           if (shouldDeleteTask) {
             handleRemoveTask(deletedTask)
-            navigate('/today')
+            navigate('/tasks')
           }
         })
       }else{
