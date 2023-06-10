@@ -72,7 +72,7 @@ const EditTaskForm = ({
   
   const updateTaskColor = (priorityId) => {
     const selectedPriority = priorities.find((priority) => priority.id === priorityId);
-    return selectedPriority.color
+    return selectedPriority ? selectedPriority.color : null;
   }
 
   const handleSubmitEdit = (e) => {
@@ -154,7 +154,7 @@ const EditTaskForm = ({
                   fullWidth
                   multiline 
                   id="title" 
-                  onChange={(newTitle) => setEditTitle(newTitle)} 
+                  onChange={(e) => setEditTitle(e.target.value)} 
                   value={editTitle} 
                   label="Title" 
                 />

@@ -49,7 +49,7 @@ const AddTaskForm = ({
 
   const setTaskColorFromPriorityColor = (priorityId) => {
     const selectedPriority = priorities.find((priority) => priority.id === priorityId);
-    return selectedPriority.color
+    return selectedPriority ? selectedPriority.color : null;
   }
 
   const handleTaskSubmit = (e) => {

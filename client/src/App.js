@@ -10,7 +10,6 @@ import NavBar from "./components/navigation/NavBar";
 import Today from "./components/scheduler/Today";
 import EditTaskForm from "./components/scheduler/EditTaskForm";
 import AddTaskForm from "./components/scheduler/AddTaskForm";
-import Test from "./components/scheduler/Test";
 
 function App() {
   
@@ -67,9 +66,8 @@ function App() {
           <Route path="/login" element={<Login setUserLoggedIn={setUserLoggedIn} />} />
           <Route path="/signup" element={<Signup setUserLoggedIn={setUserLoggedIn} />} />
           <Route path="/today" element={<Today currentUserTasks={currentUserTasks} setEditTask={setEditTask} />} />
-          <Route path="/tasks/:id/edit" element={<EditTaskForm editTask={editTask} currentUserTasks={currentUserTasks} setCurrentUserTasks={setCurrentUserTasks} tasks={tasks} setTasks={setTasks} currentUserCategories={currentUserCategories} priorities={priorities} />} />
+          <Route path="/task/edit" element={<EditTaskForm editTask={editTask} currentUserTasks={currentUserTasks} setCurrentUserTasks={setCurrentUserTasks} tasks={tasks} setTasks={setTasks} currentUserCategories={currentUserCategories} priorities={priorities} />} />
           <Route path="/task/new" element={<AddTaskForm currentUserTasks={currentUserTasks} setCurrentUserTasks={setCurrentUserTasks} tasks={tasks} setTasks={setTasks} currentUserCategories={currentUserCategories} priorities={priorities} />} />
-          <Route path="/test" element={<Test />} />
         </Routes>
       </BrowserRouter>
     </LocalizationProvider>
