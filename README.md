@@ -42,8 +42,6 @@ npm start --prefix client
 
 ```
 
-### How to use:
-
 ## Thanks to:
 
 - [dbdiagram.io](https://dbdiagram.io/home)
