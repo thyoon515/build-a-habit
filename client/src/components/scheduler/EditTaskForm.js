@@ -42,7 +42,7 @@ const EditTaskForm = ({
     return(
       <MenuItem key={category.id} value={category.id}>{category.title}</MenuItem>
     )
-  })
+  })  
 
   const displayPriorityMenu = priorities.map((eachPriority) => {
     return(
