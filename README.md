@@ -41,6 +41,7 @@ rails s
 npm start --prefix client
 
 ```
+*Make sure postgreSQL serive is running before running rails server.
 
 ## Thanks to:
 
