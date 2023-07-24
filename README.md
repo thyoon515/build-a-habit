@@ -1,4 +1,4 @@
-# Build-A-Habit
+# ![](Build-A-Habit-logos.jpeg)
 
 Building a good habit is important to stay focused and organized to optimize time efficiency. Creating a habit starts by creating scheduled tasks and executing tasks on a daily basis. 
 
