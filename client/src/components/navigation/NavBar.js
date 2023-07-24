@@ -17,7 +17,7 @@ const NavBar = ({ setUserLoggedIn, userLoggedIn }) => {
       method: "DELETE",
     }).then(() => { 
       setUserLoggedIn(false)
-      navigate('/')
+      navigate('/login')
     })
   }
 

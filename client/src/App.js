@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CurrentUserContext } from './context/CurrentUser';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import Home from "./components/static/Home";
 import Login from "./components/sessions/Login";
 import Signup from "./components/sessions/Signup";
 import NavBar from "./components/navigation/NavBar";
@@ -62,7 +61,7 @@ function App() {
       <BrowserRouter>
         <NavBar userLoggedIn={userLoggedIn} setUserLoggedIn={setUserLoggedIn} />
         <Routes>
-          <Route path="/" element={<Home userLoggedIn={userLoggedIn} />} />
+          <Route path="/" element={< Login setUserLoggedIn={setUserLoggedIn} />} />
           <Route path="/login" element={<Login setUserLoggedIn={setUserLoggedIn} />} />
           <Route path="/signup" element={<Signup setUserLoggedIn={setUserLoggedIn} />} />
           <Route path="/tasks" element={<Today currentUserTasks={currentUserTasks} setEditTask={setEditTask} />} />
